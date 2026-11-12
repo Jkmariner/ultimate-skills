@@ -1,8 +1,8 @@
 # Ultimate Agent Skills
 
-A portable library of **71 reusable agent skills** for **Hermes**, **Antigravity**, and **Claude Code**. Browse the catalog below, install the skills you need, and invoke them by name or let your agent select them when relevant.
+A portable library of **72 reusable agent skills** for **Hermes**, **Antigravity**, and **Claude Code**. Browse the catalog below, install the skills you need, and invoke them by name or let your agent select them when relevant.
 
-**[Latest release: v1.0.0](https://github.com/Jkmariner/ultimate-skills/releases/tag/v1.0.0)** · **[MIT License](./LICENSE)**
+**[Latest release: v1.1.0](https://github.com/Jkmariner/ultimate-skills/releases/tag/v1.1.0)** · **[MIT License](./LICENSE)**
 
 > These are instruction packs for your existing agent, not separate AI models or agents. What an agent can do still depends on its model, tools, permissions, and the context you provide. A skill does not grant additional access or permissions.
 
@@ -20,7 +20,7 @@ A portable library of **71 reusable agent skills** for **Hermes**, **Antigravity
 
 A skill is a focused set of instructions that teaches an agent how to approach a recurring task. Each skill lives in its own folder and has a `SKILL.md` file containing a name, a description that helps the agent recognize when to use it, a workflow, and task-specific guidance.
 
-Skills use the shared [Agent Skills format](https://agentskills.io/specification). They are designed to work across agent platforms, but each platform has its own installation locations and may expose skills differently. Skills do not include or install models, tools, APIs, or external services.
+Skills use the shared [Agent Skills format](https://agentskills.io/specification). They are designed to work across agent platforms, but each platform has its own installation locations and may expose skills differently. Skills do not include or install models, tools, APIs, or external services. In particular, installing the same skill on multiple platforms does not connect those platforms to one another; cross-agent delegation requires orchestration support from the platform or an external integration.
 
 ## Quick start
 
@@ -33,18 +33,20 @@ Skills use the shared [Agent Skills format](https://agentskills.io/specification
    /study-group-facilitator Plan a 60-minute review session for our biology exam.
    ```
 
+For work that benefits from several perspectives, install and invoke **Adaptive Agent Team**. It delegates to separate subagents only when your platform provides that capability; otherwise, the current agent switches roles internally and is clear that it is doing so.
+
 ### At a glance
 
 | Area | Skills |
 |---|---:|
-| Core assistance | 8 |
+| Core assistance | 9 |
 | Software and technology | 12 |
 | Research, writing, and learning | 9 |
 | Education, school, and college | 17 |
 | Data, analysis, and operations | 9 |
 | Product, design, and business | 10 |
 | Personal and specialist support | 6 |
-| **Total** | **71** |
+| **Total** | **72** |
 
 ## Skill catalog
 
@@ -60,6 +62,7 @@ Skills use the shared [Agent Skills format](https://agentskills.io/specification
 | [Workflow Automator](./skills/workflow-automator/SKILL.md) | Identify repetitive steps and automate them safely with available tools. |
 | [Quality Checker](./skills/quality-checker/SKILL.md) | Review work against a checklist, requirements, and acceptance criteria. |
 | [Knowledge Organizer](./skills/knowledge-organizer/SKILL.md) | Turn notes and scattered material into structured, searchable knowledge. |
+| [Adaptive Agent Team](./skills/adaptive-agent-team/SKILL.md) | Coordinate specialist roles, delegate independent work when supported, and synthesize a checked result. |
 
 ## Software and technology
 
@@ -178,7 +181,7 @@ Clone this repository once:
 git clone https://github.com/Jkmariner/ultimate-skills.git ~/ultimate-skills
 ```
 
-If you already cloned it, skip this command. Choose a platform below. Install all 71 skills or copy only the skill folders you need. Before copying, check for existing folders with the same names so you do not overwrite local customizations.
+If you already cloned it, skip this command. Choose a platform below. Install all 72 skills or copy only the skill folders you need. Before copying, check for existing folders with the same names so you do not overwrite local customizations.
 
 ### Hermes
 
@@ -255,6 +258,14 @@ reviewing cellular respiration. Include participation from everyone and
 finish with a short knowledge check.
 ```
 
+```text
+/adaptive-agent-team Help me plan a student science fair project.
+Use research, project-planning, and safety-review perspectives. Delegate
+separate work only if this platform supports subagents; otherwise switch
+perspectives yourself. Bring the findings together and flag anything
+that needs my decision.
+```
+
 For better results, include:
 
 1. **Goal:** what you want the agent to produce or help you accomplish.
@@ -281,7 +292,7 @@ pipx run --spec 'git+https://github.com/agentskills/agentskills.git#subdirectory
   skills-ref validate ~/ultimate-skills/skills/study-group-facilitator
 ```
 
-All 71 skills in v1.0.0 passed the reference validator. Platform-specific behavior can vary, so consult the linked official guides if a skill is not discovered or invoked as expected.
+All 72 skill folders passed the Agent Skills reference validator (`skills-ref`). Platform-specific behavior can vary, so consult the linked official guides if a skill is not discovered or invoked as expected.
 
 ## License
 
