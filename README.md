@@ -1,8 +1,52 @@
 # Ultimate Agent Skills
 
-A practical catalog and portable library of 71 reusable skills for agents used with **Hermes**, **Antigravity**, and **Claude Code**. The goal is broad coverage through focused, composable skills—not one oversized skill that claims to do everything.
+A portable library of **71 reusable agent skills** for **Hermes**, **Antigravity**, and **Claude Code**. Browse the catalog below, install the skills you need, and invoke them by name or let your agent select them when relevant.
 
-An agent's actual capabilities depend on its model, tools, permissions, and the context the user provides. Keep each skill focused, state its limits, and ask before taking consequential actions.
+**[Latest release: v1.0.0](https://github.com/Jkmariner/ultimate-skills/releases/tag/v1.0.0)** · **[MIT License](./LICENSE)**
+
+> These are instruction packs for your existing agent, not separate AI models or agents. What an agent can do still depends on its model, tools, permissions, and the context you provide. A skill does not grant additional access or permissions.
+
+## Contents
+
+- [What is an agent skill?](#what-is-an-agent-skill)
+- [Quick start](#quick-start)
+- [Skill catalog](#skill-catalog)
+- [Install for Hermes, Antigravity, or Claude Code](#install-for-hermes-antigravity-or-claude-code)
+- [How to use a skill](#how-to-use-a-skill)
+- [Update, troubleshoot, and validate](#update-troubleshoot-and-validate)
+- [License](#license)
+
+## What is an agent skill?
+
+A skill is a focused set of instructions that teaches an agent how to approach a recurring task. Each skill lives in its own folder and has a `SKILL.md` file containing a name, a description that helps the agent recognize when to use it, a workflow, and task-specific guidance.
+
+Skills use the shared [Agent Skills format](https://agentskills.io/specification). They are designed to work across agent platforms, but each platform has its own installation locations and may expose skills differently. Skills do not include or install models, tools, APIs, or external services.
+
+## Quick start
+
+1. Browse the [skill catalog](#skill-catalog) and choose a skill folder.
+2. Install that folder into the supported skills directory for your agent (see [installation instructions](#install-for-hermes-antigravity-or-claude-code)).
+3. Start a new agent session if the skill is not detected.
+4. Ask for the task naturally or invoke the skill by its slash command, for example:
+
+   ```text
+   /study-group-facilitator Plan a 60-minute review session for our biology exam.
+   ```
+
+### At a glance
+
+| Area | Skills |
+|---|---:|
+| Core assistance | 8 |
+| Software and technology | 12 |
+| Research, writing, and learning | 9 |
+| Education, school, and college | 17 |
+| Data, analysis, and operations | 9 |
+| Product, design, and business | 10 |
+| Personal and specialist support | 6 |
+| **Total** | **71** |
+
+## Skill catalog
 
 ## Core skills
 
@@ -122,23 +166,122 @@ Start with these cross-cutting skills in any setup:
 
 Then add only the specialist skills relevant to the work. For a software-focused setup, for example, add Software Builder, Debugging Assistant, Code Reviewer, Test Engineer, and Documentation Writer.
 
-## Using the skills across platforms
+## Install for Hermes, Antigravity, or Claude Code
 
-Each skill is a folder containing a `SKILL.md` with the shared `name` and `description` frontmatter fields. The instructions are platform-neutral; skills do not grant tools or permissions. The same skill folder can be copied into the platform's supported skill directory:
+The skills are organized as `skills/<skill-name>/SKILL.md`. Install the **skill folder** (not just the Markdown file) into the location used by your agent. The examples below use a Unix-like shell; on Windows, you can copy the same folders with File Explorer or PowerShell.
 
-- **Hermes:** copy a skill folder into `~/.hermes/skills/`, or install an individual `SKILL.md` with `hermes skills install <raw-SKILL.md-URL> --name <skill-name>`. See the [Hermes skills guide](https://hermesagent.nousresearch.com/docs/guides/work-with-skills).
-- **Antigravity:** copy a skill folder into `.agents/skills/` in your workspace, or use its global skills directory. See [Antigravity agent skills](https://antigravity.google/docs/skills).
-- **Claude Code:** copy a skill folder into `.claude/skills/` in your project, or `~/.claude/skills/` for personal use. See [Claude Code skills](https://code.claude.com/docs/en/skills).
+### 1. Download the library
 
-Example for a selected skill on a Unix-like system:
+Clone this repository once:
 
 ```sh
-cp -R skills/task-planner ~/.hermes/skills/
-cp -R skills/task-planner .agents/skills/
-cp -R skills/task-planner .claude/skills/
+git clone https://github.com/Jkmariner/ultimate-skills.git ~/ultimate-skills
 ```
 
-Install one copy in the location for the platform you use. Check for an existing skill with the same name before copying. For current platform-specific behavior, follow the linked official guides.
+If you already cloned it, skip this command. Choose a platform below. Install all 71 skills or copy only the skill folders you need. Before copying, check for existing folders with the same names so you do not overwrite local customizations.
+
+### Hermes
+
+Hermes loads user skills from `~/.hermes/skills/`. Copy all skills there:
+
+```sh
+mkdir -p ~/.hermes/skills
+cp -R ~/ultimate-skills/skills/* ~/.hermes/skills/
+```
+
+Or install one skill directly from its `SKILL.md` URL:
+
+```sh
+hermes skills install \
+  https://raw.githubusercontent.com/Jkmariner/ultimate-skills/main/skills/study-group-facilitator/SKILL.md \
+  --name study-group-facilitator
+```
+
+Check installation with `hermes skills list` or `/skills`. Invoke a skill with `/skill-name` (for example, `/study-group-facilitator ...`). Newly installed skills may require a new session. See the [Hermes skills guide](https://hermesagent.nousresearch.com/docs/guides/work-with-skills).
+
+### Antigravity
+
+For one workspace, Antigravity uses `.agents/skills/`. From the root of your project:
+
+```sh
+mkdir -p .agents/skills
+cp -R ~/ultimate-skills/skills/* .agents/skills/
+```
+
+Antigravity can also load user-level skills from `~/.gemini/config/skills/`. Skills can be selected automatically when relevant or invoked with `/skill-name`. See [Antigravity agent skills](https://antigravity.google/docs/skills) for the current locations supported by your Antigravity surface.
+
+### Claude Code
+
+For one project, install into `.claude/skills/` from the project root:
+
+```sh
+mkdir -p .claude/skills
+cp -R ~/ultimate-skills/skills/* .claude/skills/
+```
+
+For personal use across projects, copy the folders into `~/.claude/skills/` instead. Claude can load a skill when relevant or when you invoke it as `/skill-name`. See [Claude Code skills](https://code.claude.com/docs/en/skills).
+
+### Install only selected skills
+
+Replace `study-group-facilitator` with a folder name from the catalog:
+
+```sh
+DESTINATION="$HOME/.hermes/skills" # set this to your platform's skills directory
+mkdir -p "$DESTINATION"
+cp -R "$HOME/ultimate-skills/skills/study-group-facilitator" "$DESTINATION/"
+```
+
+Change `DESTINATION` to the correct directory for your platform and scope: `~/.hermes/skills/`, `~/.gemini/config/skills/`, `~/.claude/skills/`, `.agents/skills/`, or `.claude/skills/`. Keep the copied folder name aligned with the `name` in its `SKILL.md`.
+
+## How to use a skill
+
+Skills are instructions, not fixed command-line programs. Give the agent a clear task and relevant context. Many platforms can select a matching skill automatically; you can also explicitly invoke one by its slash command:
+
+```text
+/student-study-coach I have two weeks before my biology and history exams.
+Here are the topics and the hours I can study each day. Make a realistic plan
+with review sessions and breaks.
+```
+
+```text
+/academic-writing-coach Help me improve the structure of this draft.
+Keep my ideas and voice, explain your suggested changes, and do not write
+the assignment for me.
+```
+
+```text
+/study-group-facilitator Plan a 60-minute study group for five students
+reviewing cellular respiration. Include participation from everyone and
+finish with a short knowledge check.
+```
+
+For better results, include:
+
+1. **Goal:** what you want the agent to produce or help you accomplish.
+2. **Context:** audience, course, project, source material, or current situation.
+3. **Constraints:** deadline, length, tools, format, or boundaries.
+4. **Success criteria:** what a useful result should include.
+
+You can ask the agent to combine skills for a larger task, for example: “Use Technical Researcher to gather and cite current sources, then use Report Writer to create a concise brief from those findings.” The agent still needs appropriate tools and permission for tasks that access files, the web, or external services.
+
+## Update, troubleshoot, and validate
+
+Update your local clone with:
+
+```sh
+git -C ~/ultimate-skills pull --ff-only
+```
+
+If a skill is not available, check that its directory contains `SKILL.md` directly, the skill folder is in the correct platform directory, and the folder name matches the frontmatter `name`. Refresh or restart the agent session if needed. Avoid overwriting customized skill folders when updating.
+
+The release skills follow the [Agent Skills specification](https://agentskills.io/specification). To validate one locally with the reference validator:
+
+```sh
+pipx run --spec 'git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref' \
+  skills-ref validate ~/ultimate-skills/skills/study-group-facilitator
+```
+
+All 71 skills in v1.0.0 passed the reference validator. Platform-specific behavior can vary, so consult the linked official guides if a skill is not discovered or invoked as expected.
 
 ## License
 
